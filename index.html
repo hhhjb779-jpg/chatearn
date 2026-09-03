@@ -1,95 +1,35 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ChatEarn - الدردشة التي تكسبك المال</title>
+    <title>LinkEarn - المنصات الموثوقة لكسب العملات</title>
     <style>
         body { font-family: Arial, sans-serif; background: #0f0f1a; color: #fff; margin: 0; padding: 20px; }
         header { text-align: center; padding: 20px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 10px; margin-bottom: 20px; }
-        .chat-box { background: #1a1a2e; border-radius: 10px; padding: 20px; max-height: 300px; overflow-y: auto; margin-bottom: 20px; }
-        .message { background: #16213e; padding: 10px; border-radius: 5px; margin-bottom: 10px; }
-        .input-area { display: flex; gap: 10px; }
-        input { flex: 1; padding: 10px; border-radius: 5px; border: 1px solid #444; background: #1a1a2e; color: #fff; }
-        button { padding: 10px 20px; border-radius: 5px; border: none; background: #667eea; color: #fff; cursor: pointer; }
-        .earn-links { text-align: center; margin-top: 20px; }
-        .earn-links a { display: inline-block; padding: 10px 20px; background: #e94560; color: #fff; text-decoration: none; border-radius: 5px; margin: 5px; }
+        h1 { margin: 0; }
+        p { color: #aaa; }
+        .links { text-align: center; margin-top: 30px; }
+        .links a { display: inline-block; padding: 15px 30px; background: #e94560; color: #fff; text-decoration: none; border-radius: 8px; margin: 10px; font-weight: bold; }
+        .info { text-align: center; background: #1a1a2e; padding: 20px; border-radius: 10px; margin-top: 30px; }
     </style>
 </head>
 <body>
     <header>
-        <h1>💰 ChatEarn</h1>
-        <p>الدردشة التي تكسبك المال!</p>
+        <h1>🔗 LinkEarn</h1>
+        <p>صفحة شفافة تجمع المنصات الموثوقة لكسب العملات الرقمية.</p>
     </header>
-    <div style="text-align: center; background: #f0f0f0; padding: 20px; border-radius: 10px; margin-bottom: 20px; color: #333;">
-    <h2 style="color: #333;">📝 سجل بياناتك لبدء الكسب!</h2>
-    <p style="color: #555;">اكمل البيانات التالية لبدء الدردشة وجمع النقاط:</p>
-    <p>اكمل البيانات التالية لبدء الدردشة وجمع النقاط:</p>
-    <div style="margin: 10px 0;">
-        <label>الجنس:</label>
-        <select id="gender" style="padding: 5px;">
-            <option value="male">ذكر</option>
-            <option value="female">أنثى</option>
-        </select>
+    
+    <div class="info">
+        <h3>كيف يعمل الموقع؟</h3>
+        <p>لا ندفع لك أموالاً وهمية. نقوم فقط بتوجيهك إلى المنصات العالمية الموثوقة التي تدفع لك <strong>مكافآت حقيقية</strong> مقابل إكمال مهام حقيقية (استبيانات، إعلانات، ألعاب).</p>
+        <p>عندما تسجل في إحدى المنصات، ستدفع لك هي مباشرة. وتحصل أنت على مكافآتك منهم.</p>
     </div>
-    <div style="margin: 10px 0;">
-        <label>العمر:</label>
-        <input type="number" id="age" placeholder="مثال: 25" min="13" max="99" style="padding: 5px;">
-    </div>
-    <div style="margin: 10px 0;">
-        <label>العملة المفضلة للسحب:</label>
-        <select id="currency" style="padding: 5px;">
-            <option value="usdt">USDT</option>
-            <option value="btc">Bitcoin</option>
-            <option value="ltc">Litecoin</option>
-        </select>
-    </div>
-    <button onclick="startChat()" style="padding: 10px 20px; background: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer;">🚀 ابدأ الدردشة</button>
-</div>
-    <div class="chat-box" id="chatBox">
-        <div class="message">مرحباً بك في ChatEarn! ابدأ الدردشة واجمع النقاط.</div>
-    </div>
-    <div class="input-area">
-        <input type="text" id="userInput" placeholder="اكتب رسالتك هنا...">
-        <button onclick="sendMessage()">إرسال</button>
-    </div>
-    <div class="earn-links">
-        <p>اجمع النقاط ثم استبدلها بالمكافآت:</p>
+
+    <div class="links">
+        <h2>المنصات الموثوقة:</h2>
         <a href="https://faucetpay.io/r/9834759" target="_blank">💰 FaucetPay</a>
         <a href="https://cointiply.mobi/VOE90v" target="_blank">🪙 Cointiply</a>
     </div>
-    <script>
-        let points = 0;
-        function sendMessage() {
-            const input = document.getElementById('userInput');
-            const chatBox = document.getElementById('chatBox');
-            if (input.value.trim() !== '') {
-                const msg = document.createElement('div');
-                msg.className = 'message';
-                msg.textContent = 'أنت: ' + input.value;
-                chatBox.appendChild(msg);
-                points += 10;
-                const rewardMsg = document.createElement('div');
-                rewardMsg.className = 'message';
-                rewardMsg.textContent = '🎉 حصلت على 10 نقاط! (إجمالي نقاطك: ' + points + ')';
-                chatBox.appendChild(rewardMsg);
-                input.value = '';
-                chatBox.scrollTop = chatBox.scrollHeight;
-            }
-        }
-        function startChat() {
-    const gender = document.getElementById('gender').value;
-    const age = document.getElementById('age').value;
-    const currency = document.getElementById('currency').value;
-    if (age === '') {
-        alert('يرجى إدخال العمر!');
-        return;
-    }
-    const chatBox = document.getElementById('chatBox');
-    chatBox.innerHTML = '<div class="message">مرحباً بك! أنت الآن مسجل للدردشة وجمع النقاط.</div>';
-    document.getElementById('userInput').style.display = 'block';
-    document.querySelector('.input-area button').style.display = 'block';
-}
-    </script>
 </body>
 </html>
