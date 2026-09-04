@@ -18,7 +18,7 @@
     .card { background: #334155; border-radius: 8px; height: 60px; display: flex; justify-content: center; align-items: center; font-size: 24px; cursor: pointer; transition: transform 0.2s; color: transparent; }
     .card.flipped { background: #10b981; color: #fff; transform: scale(1.05); }
     .card.matched { background: #e94560; color: #fff; }
-    .game-text { margin-top: 10px; color: #10b981; font-weight: bold; font-size: 18px; }
+    .game-text { margin-top: 10px; color: #fff; font-weight: bold; font-size: 18px; }
     .links { display: flex; gap: 20px; justify-content: center; margin-top: 30px; }
     .links a { background: #e94560; color: #fff; padding: 15px 30px; text-decoration: none; border-radius: 8px; font-weight: bold; }
     .links a:hover { background: #c0392b; }
@@ -33,10 +33,10 @@
 
     <div class="section">
       <h2>🧩 لعبة الذاكرة</h2>
-      <p>اقلب البطاقات وطابق الأزواج لتحصل على نقاط إضافية!</p>
+      <p>اقلب البطاقات وطابق الأزواج!</p>
       <div class="game-container">
         <div class="memory-grid" id="memoryGrid"></div>
-        <div class="game-text" id="gameText">0 نقاط</div>
+        <div class="game-text" id="gameText">حاول مطابقة كل الأزواج!</div>
       </div>
     </div>
 
@@ -60,7 +60,6 @@
     let cards = [...emojis, ...emojis].sort(() => Math.random() - 0.5);
     let flipped = [];
     let matched = 0;
-    let points = 0;
     let lock = false;
 
     const grid = document.getElementById('memoryGrid');
@@ -89,10 +88,8 @@
           first.classList.add('matched');
           second.classList.add('matched');
           matched++;
-          points += 10;
-          gameText.innerText = `${points} نقاط`;
           if (matched === 8) {
-            gameText.innerText = `🎉 أنت فزت! ${points} نقاط`;
+            gameText.innerText = '🎉 أحسنت! لقد أنهيت اللعبة!';
           }
           flipped = [];
           lock = false;
