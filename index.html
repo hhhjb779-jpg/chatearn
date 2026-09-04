@@ -13,10 +13,12 @@
     .section { background: #1e293b; padding: 20px; border-radius: 12px; margin-bottom: 20px; text-align: right; }
     .section h2 { color: #10b981; }
     .section p { color: #ccc; line-height: 1.8; }
-    .wheel-container { display: flex; justify-content: center; align-items: center; flex-direction: column; margin: 30px 0; }
-    .wheel { width: 200px; height: 200px; border-radius: 50%; border: 5px solid #fff; display: flex; justify-content: center; align-items: center; font-size: 50px; cursor: pointer; background: #333; box-shadow: 0 0 20px rgba(0,0,0,0.5); transition: transform 0.3s; }
-    .wheel:hover { transform: scale(1.1); }
-    .wheel-text { margin-top: 10px; color: #10b981; font-weight: bold; font-size: 20px; }
+    .game-container { display: flex; justify-content: center; align-items: center; flex-direction: column; margin: 30px 0; }
+    .memory-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; width: 100%; max-width: 300px; }
+    .card { background: #334155; border-radius: 8px; height: 60px; display: flex; justify-content: center; align-items: center; font-size: 24px; cursor: pointer; transition: transform 0.2s; color: transparent; }
+    .card.flipped { background: #10b981; color: #fff; transform: scale(1.05); }
+    .card.matched { background: #e94560; color: #fff; }
+    .game-text { margin-top: 10px; color: #10b981; font-weight: bold; font-size: 18px; }
     .links { display: flex; gap: 20px; justify-content: center; margin-top: 30px; }
     .links a { background: #e94560; color: #fff; padding: 15px 30px; text-decoration: none; border-radius: 8px; font-weight: bold; }
     .links a:hover { background: #c0392b; }
@@ -30,11 +32,11 @@
     </header>
 
     <div class="section">
-      <h2>🎁 عجلة الحظ اليومية</h2>
-      <p>اضغط على العجلة للحصول على نقاط إضافية (نقاط وهمية لتحفيزك على الاستمرار).</p>
-      <div class="wheel-container">
-        <div class="wheel" id="wheel" onclick="spinWheel()">🎡</div>
-        <div class="wheel-text" id="wheelText">اضغط للتدوير</div>
+      <h2>🧩 لعبة الذاكرة</h2>
+      <p>اقلب البطاقات وطابق الأزواج لتحصل على نقاط إضافية!</p>
+      <div class="game-container">
+        <div class="memory-grid" id="memoryGrid"></div>
+        <div class="game-text" id="gameText">0 نقاط</div>
       </div>
     </div>
 
@@ -54,16 +56,57 @@
   </div>
 
   <script>
+    const emojis = ['🍎', '🍌', '🍇', '🍓', '🍒', '🍑', '🥝', '🍍'];
+    let cards = [...emojis, ...emojis].sort(() => Math.random() - 0.5);
+    let flipped = [];
+    let matched = 0;
     let points = 0;
-    function spinWheel() {
-      const wheel = document.getElementById('wheel');
-      const wheelText = document.getElementById('wheelText');
-      const random = Math.floor(Math.random() * 10) + 1;
-      wheel.style.transform = `rotate(${random * 36}deg)`;
-      setTimeout(() => {
-        points += random;
-        wheelText.innerText = `حصلت على ${random} نقطة! (إجمالي: ${points})`;
-      }, 500);
+    let lock = false;
+
+    const grid = document.getElementById('memoryGrid');
+    const gameText = document.getElementById('gameText');
+
+    cards.forEach((emoji, index) => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.dataset.emoji = emoji;
+      card.dataset.index = index;
+      card.onclick = flipCard;
+      grid.appendChild(card);
+    });
+
+    function flipCard() {
+      if (lock) return;
+      const card = this;
+      if (card.classList.contains('flipped') || card.classList.contains('matched')) return;
+      card.classList.add('flipped');
+      card.textContent = card.dataset.emoji;
+      flipped.push(card);
+      if (flipped.length === 2) {
+        lock = true;
+        const [first, second] = flipped;
+        if (first.dataset.emoji === second.dataset.emoji) {
+          first.classList.add('matched');
+          second.classList.add('matched');
+          matched++;
+          points += 10;
+          gameText.innerText = `${points} نقاط`;
+          if (matched === 8) {
+            gameText.innerText = `🎉 أنت فزت! ${points} نقاط`;
+          }
+          flipped = [];
+          lock = false;
+        } else {
+          setTimeout(() => {
+            first.classList.remove('flipped');
+            second.classList.remove('flipped');
+            first.textContent = '';
+            second.textContent = '';
+            flipped = [];
+            lock = false;
+          }, 800);
+        }
+      }
     }
   </script>
 </body>
